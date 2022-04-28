@@ -20,7 +20,7 @@ setup_very_basic_config()
 
 
 def main(configuration, init_distributed=False, predict=False):
-    # A reload might be needed for imports
+    # 主函数： predict, 是做训练还是预测， A reload might be needed for imports
     setup_imports()
     configuration.import_user_dir()
     config = configuration.get_config()
@@ -32,7 +32,7 @@ def main(configuration, init_distributed=False, predict=False):
     if init_distributed:
         distributed_init(config)
 
-    seed = config.training.seed
+    seed = config.training.seed  # 随机数种子 eg: -1
     config.training.seed = set_seed(seed if seed == -1 else seed + get_rank())
     registry.register("seed", config.training.seed)
 
@@ -67,14 +67,14 @@ def distributed_main(device_id, configuration, predict=False):
 
 
 def run(opts: typing.Optional[typing.List[str]] = None, predict: bool = False):
-    """Run starts a job based on the command passed from the command line.
-    You can optionally run the mmf job programmatically by passing an optlist as opts.
+    """运行根据从命令行传递的命令启动一个Job。
+    你可以选择通过传递optlist作为opts，以编程方式运行mmf Job。
 
     Args:
         opts (typing.Optional[typing.List[str]], optional): Optlist which can be used.
             to override opts programmatically. For e.g. if you pass
             opts = ["training.batch_size=64", "checkpoint.resume=True"], this will
-            set the batch size to 64 and resume from the checkpoint if present.
+            这将把批次量设置为64，并从checkpoint恢复（如果存在的话）。
             Defaults to None.
         predict (bool, optional): If predict is passed True, then the program runs in
             prediction mode. Defaults to False.
@@ -93,10 +93,10 @@ def run(opts: typing.Optional[typing.List[str]] = None, predict: bool = False):
     configuration.args = args
     config = configuration.get_config()
     config.start_rank = 0
-    if config.distributed.init_method is None:
+    if config.distributed.init_method is None:   # 如果没有初始化分布式方法，那么就设置为单机训练
         infer_init_method(config)
 
-    if config.distributed.init_method is not None:
+    if config.distributed.init_method is not None:  # 分布式训练
         if torch.cuda.device_count() > 1 and not config.distributed.no_spawn:
             config.start_rank = config.distributed.rank
             config.distributed.rank = None
@@ -129,7 +129,7 @@ def run(opts: typing.Optional[typing.List[str]] = None, predict: bool = False):
                 nprocs=config.distributed.world_size,
             )
     else:
-        config.device_id = 0
+        config.device_id = 0   # 单机训练，GPU设备是0
         main(configuration, predict=predict)
 
 

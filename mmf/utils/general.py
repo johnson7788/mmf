@@ -284,8 +284,8 @@ def get_current_tensors():
 def get_batch_size():
     from mmf.utils.configuration import get_global_config
 
-    batch_size = get_global_config("training.batch_size")
-    world_size = get_world_size()
+    batch_size = get_global_config("training.batch_size")  #eg: 128
+    world_size = get_world_size()  # eg: 1
 
     batch_size_per_device = get_global_config("training.batch_size_per_device")
 

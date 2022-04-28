@@ -75,7 +75,7 @@ class MMFTrainer(
             self.callbacks.append(callback_cls(self.config, self, **callback_param))
 
     def load_datasets(self):
-        logger.info("Loading datasets")
+        logger.info("开始加载数据集")
         self.dataset_loader = MultiDataModule(self.config)
 
         self.train_loader = self.dataset_loader.train_dataloader()
@@ -83,7 +83,7 @@ class MMFTrainer(
         self.test_loader = self.dataset_loader.test_dataloader()
 
     def load_model(self):
-        logger.info("Loading model")
+        logger.info("开始加载模型")
         if self.config.model in self.config.model_config:
             attributes = self.config.model_config[self.config.model]
         else:
@@ -97,7 +97,7 @@ class MMFTrainer(
             attributes = self.config.model_config[attributes]
 
         with omegaconf.open_dict(attributes):
-            attributes.model = self.config.model
+            attributes.model = self.config.model  #eg: 'm4c'
 
         self.model = build_model(attributes)
         self.model = self.model.to(self.device)

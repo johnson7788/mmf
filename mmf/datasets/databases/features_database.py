@@ -19,7 +19,7 @@ class FeaturesDatabase(ImageDatabase):
         super().__init__(config, path, annotation_db, *args, **kwargs)
         self.feature_readers = []
         self.feature_dict = {}
-        self.feature_key = config.get("feature_key", "feature_path")
+        self.feature_key = config.get("feature_key", "feature_path")  #'feature_path'
         self.feature_key = feature_key if feature_key else self.feature_key
         self._fast_read = config.get("fast_read", False)
 
@@ -33,7 +33,7 @@ class FeaturesDatabase(ImageDatabase):
             )
             self.feature_readers.append(feature_reader)
 
-        self.paths = path
+        self.paths = path  #数据集路径列表
         self.annotation_db = annotation_db
         self._should_return_info = config.get("return_features_info", True)
 

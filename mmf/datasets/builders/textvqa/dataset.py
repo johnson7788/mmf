@@ -10,7 +10,7 @@ from mmf.utils.text import word_tokenize
 class TextVQADataset(MMFDataset):
     def __init__(self, config, dataset_type, imdb_file_index, *args, **kwargs):
         super().__init__("textvqa", config, dataset_type, index=imdb_file_index)
-        self.use_ocr = self.config.use_ocr
+        self.use_ocr = self.config.use_ocr  #  是否使用ocr特征
         self.use_ocr_info = self.config.use_ocr_info
 
     def preprocess_sample_info(self, sample_info):

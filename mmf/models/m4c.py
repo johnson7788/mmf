@@ -38,7 +38,7 @@ class M4C(BaseModel):
         self.finetune_modules = []
 
         # split model building into several components
-        self._build_txt_encoding()
+        self._build_txt_encoding()  # bert
         self._build_obj_encoding()
         self._build_ocr_encoding()
         self._build_mmt()
@@ -65,8 +65,8 @@ class M4C(BaseModel):
             self.text_bert = TextBert.from_pretrained(
                 "bert-base-uncased", config=self.text_bert_config
             )
-            # Use a smaller learning rate on text bert when initializing
-            # from BERT_BASE
+            # 在初始化时对BERT_BASE使用较小的学习率
+            #
             self.finetune_modules.append(
                 {"module": self.text_bert, "lr_scale": self.config.lr_scale_text_bert}
             )
@@ -74,12 +74,12 @@ class M4C(BaseModel):
             logger.info("NOT initializing text_bert from BERT_BASE")
             self.text_bert = TextBert(self.text_bert_config)
 
-        # if the text bert output dimension doesn't match the
-        # multimodal transformer (mmt) hidden dimension,
-        # add a linear projection layer between the two
+        #
+        #
+        # 如果文本Bert的输出维度与多模态transformer（mmt）的隐藏维度不匹配，在两者之间添加一个线性投影层。
         if self.mmt_config.hidden_size != TEXT_BERT_HIDDEN_SIZE:
             logger.info(
-                f"Projecting text_bert output to {self.mmt_config.hidden_size} dim"
+                f"需要映射 text_bert 输出到 {self.mmt_config.hidden_size} 维度，自动添加线性投影层"
             )
 
             self.text_bert_out_linear = nn.Linear(

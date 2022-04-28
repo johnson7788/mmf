@@ -25,13 +25,13 @@ logger = logging.getLogger(__name__)
 class MultiDataModule(pl.LightningDataModule):
     def __init__(self, config: DictConfig):
         super().__init__()
-        self.config = config
-        self.batch_size = get_batch_size()
-
+        self.config = config  # 根据配置文件，读取数据
+        self.batch_size = get_batch_size()  #eg：128
+        # eg: ['textvqa'], 返回数据集列表
         self.dataset_list: List[str] = dataset_list_from_config(self.config)
         self.datamodules: List[pl.LightningDataModule] = build_multiple_datamodules(
             self.dataset_list, self.config.dataset_config
-        )
+        ) # 处理每个数据集
         self.train_loader: Optional[MultiDataLoader] = None
         self.val_loader: Optional[MultiDataLoader] = None
         self.test_loader: Optional[MultiDataLoader] = None

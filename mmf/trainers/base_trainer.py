@@ -28,7 +28,7 @@ class BaseTrainer(ABC):
         self.configure_device()
         self.configure_seed()
 
-        # Load dataset, model, optimizer and metrics
+        # Load dataset, model, optimizer and metrics， 重点：这里是加载数据集，模型，优化器，评价指标
         self.load_datasets()
         self.load_model()
         self.load_optimizer()

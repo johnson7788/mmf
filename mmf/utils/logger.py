@@ -20,7 +20,7 @@ from termcolor import colored
 
 
 def setup_output_folder(folder_only: bool = False):
-    """Sets up and returns the output file where the logs will be placed
+    """生成一个日志输出目录，Sets up and returns the output file where the logs will be placed
     based on the configuration passed. Usually "save_dir/logs/log_<timestamp>.txt".
     If env.log_dir is passed, logs will be directly saved in this folder.
 
@@ -50,7 +50,7 @@ def setup_output_folder(folder_only: bool = False):
         return log_folder
 
     log_filename = os.path.join(log_folder, log_filename)
-
+    # eg: './save/logs/train_2022_04_28T16_38_48.log'
     return log_filename
 
 

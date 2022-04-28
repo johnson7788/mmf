@@ -76,7 +76,7 @@ class MMFDataset(BaseDataset):
         else:
             assert isinstance(paths, collections.abc.MutableSequence)
             selected_path = paths[self._index]
-
+        # eg: '/home/xxx/.cache/torch/mmf/data/datasets/textvqa/defaults/features/open_images/detectron.lmdb,/xxxx/.cache/torch/mmf/data/datasets/textvqa/ocr_en/features/ocr_en_frcn_features.lmdb'
         selected_path = self._add_root_dir(selected_path)
 
         return selected_path

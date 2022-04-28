@@ -67,12 +67,12 @@ def build_dataset_from_multiple_imdbs(config, dataset_cls, dataset_type):
 
 def dataset_list_from_config(config: DictConfig) -> List[str]:
     if "datasets" not in config:
-        warnings.warn("No datasets attribute present. Setting default to vqa2.")
+        warnings.warn("没有提供数据集，默认使用vqa2数据集")
         datasets = "vqa2"
     else:
         datasets = config.datasets
 
     if type(datasets) == str:
         datasets = list(map(lambda x: x.strip(), datasets.split(",")))
-
+    # eg: ['textvqa'], 返回数据集列表
     return datasets

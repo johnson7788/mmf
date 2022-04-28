@@ -62,7 +62,7 @@ class MMFDatasetBuilder(BaseDatasetBuilder):
 
     def build(self, config, dataset_type="train", *args, **kwargs):
         self.config = config
-        requirements = config.get("zoo_requirements", [])
+        requirements = config.get("zoo_requirements", [])  #eg: ['textvqa.defaults', 'textvqa.ocr_en']
 
         if len(requirements) == 0:
             # If nothing is specified, build the default requirement
@@ -128,7 +128,7 @@ class MMFDatasetBuilder(BaseDatasetBuilder):
         split_dataset_from_train = self.config.get("split_train", False)
         if split_dataset_from_train:
             config = self._modify_dataset_config_for_split(config)
-
+        # 标签：['textvqa/defaults/annotations/imdb_train_ocr_en.npy']
         annotations = self._read_annotations(config, dataset_type)
         if annotations is None:
             return None
@@ -180,7 +180,7 @@ class MMFDatasetBuilder(BaseDatasetBuilder):
         return config
 
     def _read_annotations(self, config, dataset_type):
-        annotations = config.get("annotations", {}).get(dataset_type, [])
+        annotations = config.get("annotations", {}).get(dataset_type, [])  #eg: ['textvqa/defaults/annotations/imdb_train_ocr_en.npy']
 
         # User can pass a single string as well
         if isinstance(annotations, str):

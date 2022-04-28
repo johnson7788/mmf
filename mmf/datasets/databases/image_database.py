@@ -30,19 +30,14 @@ def default_loader(path):
 
 
 class ImageDatabase(torch.utils.data.Dataset):
-    """ImageDatabase can be used to load images in MMF.
-    This goes either in conjunction with AnnotationDatabase or
-    can be separately used with function such as `from_path`.
-    MMFDataset initializes its own copy of ImageDatabase if `use_images`
-    is True. Rest everything works same as a normal torch Dataset if
-    you pass the annotation_db as a parameter. For example for item
-    1 from annotation db, you can pass same id to ImageDatabase to loads
-    its image. If you don't pass it, you have two options. Either use
-    .get which takes in an annotation db item or .from_path which directly
-    takes in an image path. You are free to use your own dataset instead
-    of image database or free to update or ignore MMFDataset's ImageDataset
-    initialization. You can either reinitialize with transform and other
-    params or use any of torchvision's datasets.
+    """ImageDatabase可以用来加载MMF中的图像。
+   这可以和AnnotationDatabase一起使用，也可以单独使用`from_path`等函数。
+   如果`use_images`为True，MMFDataset会初始化自己的ImageDatabase副本。
+   如果你把annotation_db作为一个参数，其余的一切工作都与普通的torch数据集一样。
+   例如，对于标注数据库中的item 1，你可以向ImageDatabase传递相同的ID来加载其图像。
+   如果你不传递它，你有两个选择。要么使用.get来获取标注数据库中的项目，要么使用.from_path来直接获取图像路径。
+   你可以自由地使用你自己的数据集而不是图像数据库，或者自由地更新或忽略MMFDataset的ImageDataset初始化。
+   你可以用转换和其他参数重新初始化，或者使用Torchvision的任何数据集。
     """
 
     def __init__(
@@ -62,7 +57,7 @@ class ImageDatabase(torch.utils.data.Dataset):
         Args:
             torch ([type]): [description]
             config (DictConfig): Config object from dataset_config
-            path (str): Path to images folder
+            path (str): 图片数据集的路径，多个路径用逗号分隔
             annotation_db (AnnotationDB, optional): Annotation DB to be used
                 to be figure out image paths. Defaults to None.
             transform (callable, optional): Transform to be called upon loaded image.

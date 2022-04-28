@@ -122,12 +122,12 @@ def build_model(
     if not isinstance(config, DictConfig) and isinstance(config, BaseModel.Config):
         config = OmegaConf.structured(config)
 
-    model_name = config.model
+    model_name = config.model  #eg:'m4c'
     model_class = registry.get_model_class(model_name)
 
     if model_class is None:
         raise RuntimeError(f"No model registered for name: {model_name}")
-    model = model_class(config)
+    model = model_class(config)  #eg: M4C()
 
     if hasattr(model, "build"):
         """Model build involves checkpoint loading
@@ -140,7 +140,7 @@ def build_model(
         now other cores can proceed to build the model
         using already downloaded checkpoint.
         """
-        if is_main():
+        if is_main():  # 是否是分布式训练的主进程
             model_class.load_requirements(model_class, config=config)
             model.build()
             synchronize()
